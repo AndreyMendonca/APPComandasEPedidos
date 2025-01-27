@@ -15,6 +15,9 @@ export default function CategoriasLayout(){
             <Stack.Screen name="produtos"
                 options={{title:"Produtos", headerShown: false}}
             />
+            <Stack.Screen name="produtosCadastros"
+                options={{headerShown: false}}
+            />
             <Stack.Screen name="adicionais"
                 options={{title:"Adicionais", headerShown: false}}
             />

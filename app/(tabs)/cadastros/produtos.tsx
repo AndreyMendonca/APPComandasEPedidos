@@ -1,11 +1,40 @@
-import { Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { Header } from "../../../components/Header";
+import { OpcaoProduto } from "../../../components/OpcaoProduto";
+import { BuscaECadastro } from "../../../components/BuscaECadastro";
+import { useEffect, useState } from "react";
+import { Produto } from "../../../types/produtos";
+import { ProdutoService } from "../../../services/produtoServoce";
 
 export default function Screen(){
+
+    const [produto, setProdutos] = useState<Produto[]>([]);
+
+    const listaProdutos = async () => {
+            try{
+                const lista = await ProdutoService.getAll();  
+                setProdutos(lista);      
+            }catch(error){
+                return 0;
+            }
+        }
+    
+        useEffect( () =>{
+            listaProdutos();
+        }, []);
+
     return (
-        <View>
+        <View className="flex-1">
             <Header nome="Produtos" voltar={true} />
-            <Text>Produtos</Text>
+            <BuscaECadastro rota="/cadastros/produtosCadastros"/>
+
+            <FlatList
+                data={produto}
+                renderItem={ ( {item} : {item:Produto} ) => 
+                    (<OpcaoProduto data={item}/>)
+                }
+                keyExtractor={item => item.id.toString()}
+            />
         </View>
     )
 }
