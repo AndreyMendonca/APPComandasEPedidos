@@ -1,12 +1,27 @@
 import { Button, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
 import { Header } from "../../../components/Header";
 import { router } from "expo-router";
+import { useState } from "react";
+import { Categoria } from "../../../types/categoria";
+import { CategoriaService } from "../../../services/categoriaService";
 
 
 export default function Screen(){
 
-    const handleSalvar = () =>{
+    const [categoria, setCategoria] = useState<Categoria>({nome: ''});
 
+    const handleSalvar = async () =>{
+        try{
+            const resposta =  await CategoriaService.save(categoria);
+            if(resposta){
+                alert("Cadastro realizado ")
+            }else{
+                alert("Erro")
+            }
+            router.replace('/cadastros/categorias');            
+        }catch(erro){
+            console.log("Erro ao cadastrar: " + erro)
+        }
     }
 
     return (
@@ -15,7 +30,12 @@ export default function Screen(){
             <View className="m-6">
                 <View className="flex-row items-center bg-gray-200 rounded-3xl"> 
                     <Text className="font-semibold text-xl m-5">Nome:</Text>
-                    <TextInput placeholder="Digite o nome da categoria" className="text-xl"/>
+                    <TextInput 
+                        placeholder="Digite o nome da categoria" 
+                        value={categoria?.nome} 
+                        onChangeText = { texto => setCategoria({...categoria, nome: texto})}
+                        className="text-xl" 
+                    />
                 </View>
                 <View className="flex-row mt-8 justify-between">
                     <Pressable onPress={ () => router.back()} className="bg-red-600 rounded-3xl h-16 w-[45%] items-center justify-center">
