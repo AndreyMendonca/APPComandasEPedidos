@@ -17,7 +17,7 @@ export const OpcaoProduto = ( {data}: Props) => {
         <View className="bg-gray-200 m-3 p-4 rounded-xl flex-row justify-between items-center">
             <View className="">
                 <Text className="font-semibold text-xl mr-">{data.nome}</Text>
-                <Text className="font-normal text-l">R$ {data.precoVenda} </Text>
+                <Text className="font-normal text-l">R$ {data.precoVenda.toFixed(2)} </Text>
             </View>
             <View className="flex-row">
                 <Pressable className="items-center mr-4">

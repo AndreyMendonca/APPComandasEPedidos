@@ -16,11 +16,10 @@ export const ProdutoService = {
             return [];
         }   
     }
-    /*
     ,
-    save : async (categoria: Categoria): Promise<Categoria | null> => {
+    save : async (produto: Produto): Promise<Produto | null> => {
         try{
-            const response = await req.post('/categorias', categoria);
+            const response = await req.post('/produtos', produto);
             if(response.status === 201){
                 return response.data;
             }
@@ -29,7 +28,8 @@ export const ProdutoService = {
             console.error("Erro na API ao salvar categoria:", erro);
             throw new Error("Erro ao salvar categoria. Tente novamente mais tarde.");
         }
-    },
+    }
+    /*,
     delete : async (id?: number): Promise<void> => {
         try{
             const response = await req.delete(`/categorias/${id}`);

@@ -4,7 +4,7 @@ import { OpcaoProduto } from "../../../components/OpcaoProduto";
 import { BuscaECadastro } from "../../../components/BuscaECadastro";
 import { useEffect, useState } from "react";
 import { Produto } from "../../../types/produtos";
-import { ProdutoService } from "../../../services/produtoServoce";
+import { ProdutoService } from "../../../services/produtoService";
 
 export default function Screen(){
 

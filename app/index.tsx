@@ -6,7 +6,6 @@ export default function Screen(){
     const handleClick = () =>{
         router.replace('/home')
     }
-
     return (
         <View>
             <Text className="text-red-500">Ola</Text>
