@@ -25,11 +25,11 @@ export const BuscaECadastro = ({rota} : Props) =>{
             </View>
             <Pressable onPress={handlePress} className="items-center mr-4">
                 <Icon name="magnifying-glass" size={20} color="black"/>
-                <Text>Cadastrar</Text>
+                <Text>Procurar</Text>
             </Pressable>
             <Pressable onPress={handleCadastro} className="items-center mr-4">
                 <Icon name="square-plus" size={20} color="green"/>
-                <Text className="color-green-800">Cadastrar</Text>
+                <Text className="color-green-800">Criar</Text>
             </Pressable>
         </View>
     )

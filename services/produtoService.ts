@@ -8,11 +8,11 @@ export const ProdutoService = {
             if(response.status === 200){
                 return response.data;
             }else{
-                console.log("deu ruim");
+                console.log("Erro com o seguinte status " + response.status );
                 return [];
             }  
-        }catch(erro){
-            console.log("deu erro " + erro);
+        }catch(error){
+            console.error("Erro na API ao salvar categoria:", error);
             return [];
         }   
     }
