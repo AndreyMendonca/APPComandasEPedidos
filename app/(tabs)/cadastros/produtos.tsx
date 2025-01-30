@@ -11,17 +11,17 @@ export default function Screen(){
     const [produto, setProdutos] = useState<Produto[]>([]);
 
     const listaProdutos = async () => {
-            try{
-                const lista = await ProdutoService.getAll();  
-                setProdutos(lista);      
-            }catch(error){
-                return 0;
-            }
+        try{
+            const lista = await ProdutoService.getAll();  
+            setProdutos(lista);      
+        }catch(error){
+            return 0;
         }
+    }
     
-        useEffect( () =>{
-            listaProdutos();
-        }, []);
+    useEffect( () =>{
+        listaProdutos();
+    }, []);
 
     return (
         <View className="flex-1">

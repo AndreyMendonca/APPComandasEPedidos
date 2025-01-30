@@ -13,8 +13,8 @@ export default function Screen(){
         try{
             const resposta = await ComandaService.abrirComanda(abrirComanda);
             if(resposta){
-                alert("Cadastro realizado ")
-                router.replace('/vendas/comandas');  
+                alert("Lançe os pedidos")
+                router.push(`/comanda/${resposta.id}`) 
             }else{
                 setAbrirComanda( {...abrirComanda, identificacao : ""})
                 router.reload;

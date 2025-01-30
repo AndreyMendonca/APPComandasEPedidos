@@ -13,6 +13,12 @@ export default function ScreenRoot(){
                     headerShown: false
                 }}
             />
+            <Stack.Screen 
+                name="comanda/[id]"
+                options={{
+                    headerShown: false
+                }}
+            />
         </Stack>
     )
 }
