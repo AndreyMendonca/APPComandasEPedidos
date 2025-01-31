@@ -1,5 +1,5 @@
 import { req } from "../lib/axios"
-import { AbrirComanda, Comanda } from "../types/comanda";
+import { AbrirComanda, Comanda, Pedido } from "../types/comanda";
 
 export const ComandaService = {
     getAbertas : async (): Promise<Comanda[]> =>{
@@ -32,5 +32,34 @@ export const ComandaService = {
                 throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
             }
         }
+    },
+    lancarItensAComanda: async (id:string,pedido: Pedido):  Promise<Comanda> =>{
+        try{
+            const response = await req.put(`/comandas/${id}/adicionar`, pedido)
+            if(response.status === 200){
+                return response.data;
+            }else{
+                console.log("Erro com o seguinte status " + response.status );
+                return response.data;
+            }
+        }catch(error: any){
+            console.log(`/comanda/${id}/adicionar`)
+            throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
+        }
+    },
+    fecharComanda: async (id:string) : Promise<Comanda> =>{
+        try{
+            const response = await req.put(`/comandas/${id}/fecharComanda`)
+            if(response.status === 200){
+                return response.data;
+            }else{
+                console.log("Erro com o seguinte status " + response.status );
+                return response.data;
+            }
+        }catch(error: any){
+            console.log(`/comanda/${id}/adicionar`)
+            throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
+        }
+
     }
 }

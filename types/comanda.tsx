@@ -9,3 +9,12 @@ export type Comanda = {
 export type AbrirComanda = {
     identificacao: string;
 }
+
+export type ItensPedido = {
+    idProduto?: number | null;
+    quantidade: number;
+}
+
+export type Pedido = {
+    itens: ItensPedido[];
+}

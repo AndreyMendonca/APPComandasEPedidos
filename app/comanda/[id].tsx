@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Text, View, ScrollView, Pressable, SafeAreaView, FlatList } from "react-native";
 import { Header } from "../../components/Header";
 import { OpcaoCategoriaVenda } from "../../components/OpcaoCategoriaVenda";
@@ -7,12 +7,16 @@ import { OpcaoProdutoVenda } from "../../components/OpcaoProdutoVenda";
 import { useEffect, useState } from "react";
 import { Produto } from "../../types/produtos";
 import { ProdutoService } from "../../services/produtoService";
+import { ItensPedido, Pedido } from "../../types/comanda";
+import { ComandaService } from "../../services/comandaService";
 
 
 export default function Screen(){
     const {id} = useLocalSearchParams();
 
     const [produto, setProdutos] = useState<Produto[]>([]);
+
+    const [pedido, setPedido] = useState<Pedido>({itens: []});
 
     const listaProdutos = async () => {
         try{
@@ -26,6 +30,40 @@ export default function Screen(){
     useEffect( () =>{
         listaProdutos();
     }, []);
+
+    useEffect(() => {
+        console.log("Pedido atualizado:", pedido);
+    }, [pedido]);
+
+    const adicionarItemAoPedido= (item: ItensPedido, soma:boolean) =>{
+        if (!pedido) return console.log("não funcionou");
+
+        setPedido((prevPedido) => {
+            if (!prevPedido) return { itens: [item] }; // Garante que o estado não fique undefined
+    
+            const itensAtualizados = prevPedido.itens.map((i) =>
+                i.idProduto === item.idProduto ? { ...i, quantidade: (item.quantidade || 0)+ (soma ? 1 : -1)} : i
+                
+            );
+    
+            const existe = prevPedido.itens.some(i => i.idProduto === item.idProduto);
+            
+            return {
+                ...prevPedido,
+                itens: existe ? itensAtualizados : [...prevPedido.itens, item]
+            };
+        });
+    }
+
+    const handleLancarPedido = async () =>{
+        try{
+            const responta = await ComandaService.lancarItensAComanda(id.toString(), pedido);
+            router.replace("vendas/comandas")
+            alert("Item lançados a comanda")
+        }catch(error){
+            console.log("Erro ao cadastrar: " + error)
+        }
+    }
 
     return (
         <SafeAreaView className="flex-1">
@@ -58,7 +96,7 @@ export default function Screen(){
             <FlatList 
                 data={produto}
                 renderItem={ ( {item} : {item:Produto} ) => 
-                    (<OpcaoProdutoVenda data={item}/>)
+                    (<OpcaoProdutoVenda data={item} addItem={adicionarItemAoPedido}/>)
                 }
                 keyExtractor={item => item.id.toString()}
                 className="mx-2"
@@ -81,7 +119,7 @@ export default function Screen(){
                         <Text className="color-white ml-8">Pedido</Text>
                     </View>
                 </Pressable>
-                <Pressable className="flex-row items-center justify-center p-2 m-2 bg-green-700 rounded-lg">
+                <Pressable onPress={handleLancarPedido} className="flex-row items-center justify-center p-2 m-2 bg-green-700 rounded-lg">
                     <Icon name="cart-plus" size={20} color="white"/>
                     <View className="items-center">
                         <Text className="color-white ml-8">Lançar</Text>

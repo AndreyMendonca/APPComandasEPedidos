@@ -15,7 +15,7 @@ export default function Screen(){
 
     const handleSalvar = async () =>{
         try{
-            const resposta =  await ProdutoService.save(produto);
+            const resposta = await ProdutoService.save(produto);
             if(resposta){
                 alert("Cadastro realizado ")
             }else{
