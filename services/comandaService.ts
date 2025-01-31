@@ -61,5 +61,20 @@ export const ComandaService = {
             throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
         }
 
+    },
+    getById: async (id:string): Promise<Comanda> => {
+        try{
+            const response = await req.get(`/comandas/${id}`)
+            console.log(response.data)
+            if(response.status === 200){
+                return response.data;
+            }else{
+                console.log("Erro com o seguinte status " + response.status );
+                return response.data;
+            }
+        }catch(error){
+            console.log(`/comanda/${id}/adicionar`)
+            throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
+        }
     }
 }

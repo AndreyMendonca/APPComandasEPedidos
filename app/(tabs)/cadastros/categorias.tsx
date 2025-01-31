@@ -26,7 +26,7 @@ export default function Screen(){
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <Header nome="Categorias" voltar={true}/>
+            <Header nome="Categorias" voltar={true} rota="/cadastros/listaDeCadastros"/>
             <BuscaECadastro rota="/cadastros/categoriasCadastro"/>
 
             <FlatList

@@ -19,6 +19,12 @@ export default function ScreenRoot(){
                     headerShown: false
                 }}
             />
+            <Stack.Screen 
+                name="comanda/fechamento/[id]"
+                options={{
+                    headerShown: false
+                }}
+            />
         </Stack>
     )
 }

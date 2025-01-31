@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Text, View, ScrollView, Pressable, SafeAreaView, FlatList } from "react-native";
+import { Text, View, ScrollView, Pressable, SafeAreaView, FlatList, Button } from "react-native";
 import { Header } from "../../components/Header";
 import { OpcaoCategoriaVenda } from "../../components/OpcaoCategoriaVenda";
 import Icon from '@expo/vector-icons/FontAwesome6';
@@ -7,7 +7,7 @@ import { OpcaoProdutoVenda } from "../../components/OpcaoProdutoVenda";
 import { useEffect, useState } from "react";
 import { Produto } from "../../types/produtos";
 import { ProdutoService } from "../../services/produtoService";
-import { ItensPedido, Pedido } from "../../types/comanda";
+import { Comanda, ItensPedido, Pedido } from "../../types/comanda";
 import { ComandaService } from "../../services/comandaService";
 
 
@@ -17,6 +17,19 @@ export default function Screen(){
     const [produto, setProdutos] = useState<Produto[]>([]);
 
     const [pedido, setPedido] = useState<Pedido>({itens: []});
+
+    const [comanda, setComanda] = useState<Comanda>();
+
+    const getById = async () =>{
+        try{
+            console.log('cheguei aqui')
+            console.log({id})
+            const response = await ComandaService.getById(id.toString())
+            setComanda(response)
+        }catch(error){
+            return 0;
+        }
+    }
 
     const listaProdutos = async () => {
         try{
@@ -28,7 +41,11 @@ export default function Screen(){
     }
 
     useEffect( () =>{
-        listaProdutos();
+        getById()
+    }, []);
+
+    useEffect( () =>{
+        listaProdutos()
     }, []);
 
     useEffect(() => {
@@ -70,10 +87,10 @@ export default function Screen(){
             <Header nome="Lançamento Item" voltar={true}></Header>
             <View className="m-2 flex-row h-24 items-center justify-between">
                 <View>
-                    <Text>Identificação Comanda id = {id}</Text>
+                    <Text className="text-xl">Identificação: {comanda?.identificacao}</Text>
                     <Text>Valor total: R$ 2.00</Text>
                 </View>
-                <Pressable className="flex-row items-center w-36 h-20 justify-center bg-green-700 rounded-lg">
+                <Pressable onPress={() => router.push(`comanda/fechamento/${id}`)} className="flex-row items-center w-36 h-20 justify-center bg-green-700 rounded-lg">
                     <Icon name="hand-holding-dollar" size={20} color="white"/>
                     <View className="items-center">
                         <Text className="color-white ml-8">Fechar</Text>
@@ -105,7 +122,7 @@ export default function Screen(){
             
 
             <View className="mx-2 flex-row h-24 items-center justify-center">
-                <Pressable className="flex-row items-center justify-center p-2 m-2 bg-red-600 rounded-lg">
+                <Pressable onPress={() => router.replace("vendas/comandas")} className="flex-row items-center justify-center p-2 m-2 bg-red-600 rounded-lg">
                     <Icon name="trash-can" size={20} color="white"/>
                     <View className="items-center">
                         <Text className="color-white ml-8">Cancelar</Text>

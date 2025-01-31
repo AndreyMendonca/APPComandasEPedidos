@@ -5,12 +5,17 @@ import { router } from "expo-router";
 type Props = {
     nome: string;
     voltar?: boolean;
+    rota?: string;
 }
 
-export const Header = ({nome, voltar = false} : Props) =>{
+export const Header = ({nome, voltar = false, rota = ""} : Props) =>{
 
     const handlePress = () =>{
-        router.back();
+        if(rota === ""){
+            router.back();
+        }else{
+            router.replace(rota);
+        }
     }
 
     return (
