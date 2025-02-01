@@ -6,6 +6,15 @@ export default function ScreenRoot(){
         <Stack>
             <Stack.Screen
                 name="index"
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="cadastro"
+                options={{
+                    headerShown: false
+                }}
             />
             <Stack.Screen 
                 name="(tabs)"
