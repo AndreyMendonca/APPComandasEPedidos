@@ -7,7 +7,7 @@ import { OpcaoProdutoVenda } from "../../components/OpcaoProdutoVenda";
 import { useEffect, useState } from "react";
 import { Produto } from "../../types/produtos";
 import { ProdutoService } from "../../services/produtoService";
-import { Comanda, ItensPedido, Pedido } from "../../types/comanda";
+import { Comanda, ItensPedidoDTO, PedidoDTO } from "../../types/comanda";
 import { ComandaService } from "../../services/comandaService";
 
 
@@ -16,7 +16,7 @@ export default function Screen(){
 
     const [produto, setProdutos] = useState<Produto[]>([]);
 
-    const [pedido, setPedido] = useState<Pedido>({itens: []});
+    const [pedido, setPedido] = useState<PedidoDTO>({itens: []});
 
     const [comanda, setComanda] = useState<Comanda>();
 
@@ -52,7 +52,7 @@ export default function Screen(){
         console.log("Pedido atualizado:", pedido);
     }, [pedido]);
 
-    const adicionarItemAoPedido= (item: ItensPedido, soma:boolean) =>{
+    const adicionarItemAoPedido= (item: ItensPedidoDTO, soma:boolean) =>{
         if (!pedido) return console.log("não funcionou");
 
         setPedido((prevPedido) => {
@@ -115,9 +115,10 @@ export default function Screen(){
                 renderItem={ ( {item} : {item:Produto} ) => 
                     (<OpcaoProdutoVenda data={item} addItem={adicionarItemAoPedido}/>)
                 }
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item?.id.toString()}
                 className="mx-2"
             />
+
 
             
 

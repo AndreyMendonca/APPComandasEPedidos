@@ -4,32 +4,52 @@ import { useEffect, useState } from "react";
 import { Comanda } from "../../../types/comanda";
 import { ComandaService } from "../../../services/comandaService";
 import { useLocalSearchParams } from "expo-router";
+import { ComandaCompleta } from "../../../components/ComandaCompleta";
 
 export default function Screen(){
     const {id} = useLocalSearchParams();
-    const [comanda, setComanda] = useState<Comanda>();
-
-    const getById = async () =>{
-        try{
-            console.log('cheguei aqui')
-            console.log({id})
-            const response = await ComandaService.getById(id.toString())
-            setComanda(response)
-        }catch(error){
-            return 0;
+    const [comanda, setComanda] = useState<Comanda>({
+        id: 0,
+        identificacao: '',
+        aberta: true,
+        abertura: '',
+        fechamento: null,
+        pedido: {
+            id: 0,
+            itens: [],
+            valorTotalFinal: 0,
+            pagamentoTotal: 0
         }
-    }
+    });
+
+    useEffect(() => {
+        if (comanda) {
+          console.log("Itens do pedido (atualizado):", comanda.pedido?.itens);
+        }
+      }, [comanda]);
+
     useEffect( () =>{
         getById()
     }, []);
 
+    const getById = async () =>{
+        try{
+            const response = await ComandaService.getById(id.toString())
+            console.log(response)
+            console.log(JSON.stringify(response, null, 2));
+            setComanda(response)
+            console.log("Itens do pedido:", comanda.pedido?.itens);
+        }catch(error){
+            return 0;
+        }
+    }
+
+
     return (
-        <SafeAreaView>
+        <SafeAreaView className="flex-1">
             <Header nome="Fechar comanda" voltar={true}/>
-            <Text>Comanda {id}</Text>
-            <Text>{comanda?.identificacao}</Text>
-            <Text>{comanda?.abertura}</Text>
-            <Text>{comanda?.fechamento}</Text>
+            <ComandaCompleta data={comanda}/>
+            <Text>Ola</Text>
         </SafeAreaView>
     )
 }

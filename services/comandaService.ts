@@ -1,5 +1,5 @@
 import { req } from "../lib/axios"
-import { AbrirComanda, Comanda, Pedido } from "../types/comanda";
+import { AbrirComanda, Comanda, PedidoDTO } from "../types/comanda";
 
 export const ComandaService = {
     getAbertas : async (): Promise<Comanda[]> =>{
@@ -33,7 +33,7 @@ export const ComandaService = {
             }
         }
     },
-    lancarItensAComanda: async (id:string,pedido: Pedido):  Promise<Comanda> =>{
+    lancarItensAComanda: async (id:string,pedido: PedidoDTO):  Promise<Comanda> =>{
         try{
             const response = await req.put(`/comandas/${id}/adicionar`, pedido)
             if(response.status === 200){

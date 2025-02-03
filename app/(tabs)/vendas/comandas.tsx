@@ -24,24 +24,15 @@ export default function Screen(){
         listaComandasAtivas();
     }, [])
 
-    const handleFecharComanda = async (id: string) =>{
-        try{
-            const responta = await ComandaService.fecharComanda(id);
-            router.replace("vendas/comandas")
-            alert("Comanda fechada com sucesso")
-        }catch(error){
-            console.log("Erro ao cadastrar: " + error)
-        }
-    }
 
     return(
         <SafeAreaView className="flex-1">
-            <Header nome="Comandas" voltar={true}/>
+            <Header nome="Comandas" voltar={true} rota="vendas/opcaoDeVenda"/>
             <BuscaECadastro rota="/vendas/aberturaComanda"/>
             <FlatList 
                 data={comandas}
                 renderItem={ ( {item} : {item:Comanda}) =>
-                    (<ComandaAberta data={item} fecharComanda={handleFecharComanda}/>)
+                    (<ComandaAberta data={item} />)
                 }
                 keyExtractor={item => item.id.toString()}
             />

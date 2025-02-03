@@ -6,10 +6,9 @@ import { useState } from "react";
 
 type Props = {
     data ?: Comanda
-    fecharComanda : (id:string) => void
 }
 
-export const ComandaAberta = ( {data, fecharComanda}: Props ) =>{
+export const ComandaAberta = ( {data}: Props ) =>{
 
     const handleClickComanda = () =>{
         router.push(`/comanda/${data?.id}`)
@@ -32,10 +31,6 @@ export const ComandaAberta = ( {data, fecharComanda}: Props ) =>{
                     <Icon name="circle-plus" size={28} color="white" />
                     <Text className="text-white text-sm">Add</Text>
                 </View>
-                <Pressable onPress={() => fecharComanda(data?.id?.toString() || '')} className="items-center justify-center mr-3">
-                    <Icon name="hand-holding-dollar" size={28} color="white" />
-                    <Text className="text-white text-sm">Fechar</Text>
-                </Pressable>
             </View>
         </Pressable>
     )
