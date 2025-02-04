@@ -5,6 +5,7 @@ import { Comanda } from "../../../types/comanda";
 import { ComandaService } from "../../../services/comandaService";
 import { useLocalSearchParams } from "expo-router";
 import { ComandaCompleta } from "../../../components/ComandaCompleta";
+import { LancarPagamento } from "../../../components/lancarPagamento";
 
 export default function Screen(){
     const {id} = useLocalSearchParams();
@@ -49,7 +50,7 @@ export default function Screen(){
         <SafeAreaView className="flex-1">
             <Header nome="Fechar comanda" voltar={true}/>
             <ComandaCompleta data={comanda}/>
-            <Text>Ola</Text>
+            <LancarPagamento />
         </SafeAreaView>
     )
 }
