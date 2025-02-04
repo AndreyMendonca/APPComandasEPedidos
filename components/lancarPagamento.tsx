@@ -4,6 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 
 export const LancarPagamento = () =>{
     const [form, setForm] = useState(false)
+    const [pagamento, setPagamento] = useState();
 
     const handleVisible = () =>{
         setForm(true)
@@ -13,27 +14,36 @@ export const LancarPagamento = () =>{
     }
 
     return(
-        <View className="flex-1 bg-gray-200 rounded-3xl p-2">
+        <View className="bg-gray-200 rounded-3xl m-2 p-2">
             <View className="items-center justify-center m-2">
-                <Pressable onPress={handleVisible} className="bg-white rounded-lg w-64 items-center justify-center">
+                <Pressable onPress={handleVisible} className="bg-yellow-400 rounded-lg w-64 items-center justify-center">
                     <Text className="font-semibold text-xl">Adicionar Pagamento</Text>
                 </Pressable>
             </View>
 
             {
                 form &&
-                <View className="border-2"> 
+                <View className="border-2 rounded-xl"> 
 
                     <View className="flex-row justify-between m-2">
                         <TextInput 
-                            value=""
                             placeholder="adicione o valor"
-                            className="bg-white w-52"
+                            className="bg-white w-52 h-12 rounded-xl"
                             keyboardType="numeric"
                         />
-                        <Picker>
-                            <Picker.Item label="oi" value={""}/>
-                        </Picker>
+                        <View className="bg-white w-52 h-12 rounded-xl">
+                            <Picker
+                                selectedValue={pagamento}
+                                onValueChange={(item) => setPagamento(item)}
+                                
+                            >
+                                <Picker.Item label="Dinheiro" value={1}/>
+                                <Picker.Item label="Pix" value={1}/>
+                                <Picker.Item label="Cartão de Crédito" value={1}/>
+                                <Picker.Item label="Cartão de Débito" value={1}/>
+                            </Picker>
+                        </View>
+
                     </View>
 
                     <View className="flex-row justify-center m-2">

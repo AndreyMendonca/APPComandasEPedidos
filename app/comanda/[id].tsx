@@ -83,7 +83,7 @@ export default function Screen(){
     }
 
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-white">
             <Header nome="Lançamento Item" voltar={true}></Header>
             <View className="m-2 flex-row h-24 items-center justify-between">
                 <View>
@@ -101,7 +101,7 @@ export default function Screen(){
             
             <View className="h-1 bg-gray-200 mb-2"></View>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mx-2 h-28">
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mx-2 h-12">
                 <OpcaoCategoriaVenda />
                 <OpcaoCategoriaVenda />
                 <OpcaoCategoriaVenda />
@@ -109,19 +109,17 @@ export default function Screen(){
             </ScrollView>
 
             <View className="h-1 bg-gray-200 mt-2 mb-2"></View>
-
-            <FlatList 
-                data={produto}
-                renderItem={ ( {item} : {item:Produto} ) => 
-                    (<OpcaoProdutoVenda data={item} addItem={adicionarItemAoPedido}/>)
-                }
-                keyExtractor={item => item?.id.toString()}
-                className="mx-2"
-            />
-
-
+            <View className="h-[60%] p-1">
+                <FlatList 
+                    data={produto}
+                    renderItem={ ( {item} : {item:Produto} ) => 
+                        (<OpcaoProdutoVenda data={item} addItem={adicionarItemAoPedido}/>)
+                    }
+                    keyExtractor={item => item?.id.toString()}
+                    className="mx-2"
+                />
+            </View>
             
-
             <View className="mx-2 flex-row h-24 items-center justify-center">
                 <Pressable onPress={() => router.replace("vendas/comandas")} className="flex-row items-center justify-center p-2 m-2 bg-red-600 rounded-lg">
                     <Icon name="trash-can" size={20} color="white"/>

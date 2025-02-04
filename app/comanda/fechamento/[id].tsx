@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text, View } from "react-native";
 import { Header } from "../../../components/Header";
 import { useEffect, useState } from "react";
 import { Comanda } from "../../../types/comanda";
@@ -50,7 +50,15 @@ export default function Screen(){
         <SafeAreaView className="flex-1">
             <Header nome="Fechar comanda" voltar={true}/>
             <ComandaCompleta data={comanda}/>
-            <LancarPagamento />
+            <View className="h-36">
+                <LancarPagamento />
+            </View>
+            
+            <View className="flex-1 items-center justify-center mt-4">
+                <Pressable className="bg-green-700 w-80 h-[50%] items-center justify-center">
+                    <Text className="text-white font-bold text-4xl">Fechar</Text>
+                </Pressable>
+            </View>
         </SafeAreaView>
     )
 }

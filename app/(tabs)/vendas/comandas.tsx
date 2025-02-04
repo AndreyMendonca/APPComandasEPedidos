@@ -27,7 +27,7 @@ export default function Screen(){
 
     return(
         <SafeAreaView className="flex-1">
-            <Header nome="Comandas" voltar={true} rota="vendas/opcaoDeVenda"/>
+            <Header nome="Comandas"/>
             <BuscaECadastro rota="/vendas/aberturaComanda"/>
             <FlatList 
                 data={comandas}
