@@ -36,3 +36,8 @@ export type PedidoDTO = {
 export type AbrirComanda = {
     identificacao: string;
 }
+
+export type pagamentoDTO = {
+    formaDePagamento: number;
+    valorPago : number;
+}

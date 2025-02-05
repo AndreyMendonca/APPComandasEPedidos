@@ -42,6 +42,10 @@ export const ComandaCompleta = ({data} : Props) => {
                 <Text className="font-semibold text-xl mr-2">Total a pagar: </Text>
                 <Text className="font-bold text-4xl">R$ {data.pedido.valorTotalFinal.toFixed(2)}</Text>
             </View>
+            <View className="flex-row justify-end">
+                <Text className="font-semibold text-sm mr-2">Total pago: </Text>
+                <Text className="font-bold text-sm">R$ {data.pedido.pagamentoTotal.toFixed(2)}</Text>
+            </View>
             <View className="h-1 bg-white my-3"></View>
         </View>
         

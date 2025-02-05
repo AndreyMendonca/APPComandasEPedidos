@@ -1,5 +1,5 @@
 import { req } from "../lib/axios"
-import { AbrirComanda, Comanda, PedidoDTO } from "../types/comanda";
+import { AbrirComanda, Comanda, pagamentoDTO, PedidoDTO } from "../types/comanda";
 
 export const ComandaService = {
     getAbertas : async (): Promise<Comanda[]> =>{
@@ -47,9 +47,9 @@ export const ComandaService = {
             throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
         }
     },
-    fecharComanda: async (id:string) : Promise<Comanda> =>{
+    adicionarPagamento : async (id:string, pagamento: pagamentoDTO) : Promise<Comanda> =>{
         try{
-            const response = await req.put(`/comandas/${id}/fecharComanda`)
+            const response = await req.put(`/comandas/${id}/pagamento`, pagamento)
             if(response.status === 200){
                 return response.data;
             }else{
@@ -57,8 +57,25 @@ export const ComandaService = {
                 return response.data;
             }
         }catch(error: any){
-            console.log(`/comanda/${id}/adicionar`)
             throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
+        }
+    },
+    fecharComanda: async (id:string) : Promise<Comanda> =>{
+        try{
+            const response = await req.put(`/comandas/${id}/fecharComanda`)
+            if(response.status === 200){
+                console.log(response.data);
+                return response.data;
+            }else{
+                console.log("Erro com o seguinte status " + response.status );
+                return response.data;
+            }
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido ao fechar comanda.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
         }
 
     },

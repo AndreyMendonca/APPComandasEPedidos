@@ -3,7 +3,7 @@ import { Header } from "../../../components/Header";
 import { useEffect, useState } from "react";
 import { Comanda } from "../../../types/comanda";
 import { ComandaService } from "../../../services/comandaService";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { ComandaCompleta } from "../../../components/ComandaCompleta";
 import { LancarPagamento } from "../../../components/lancarPagamento";
 
@@ -22,6 +22,16 @@ export default function Screen(){
             pagamentoTotal: 0
         }
     });
+
+    const handleFecharComanda = async () =>{
+        try{
+            const response = ComandaService.fecharComanda(id.toString());
+            alert("Comanda fechada com sucesso");
+            router.replace("/vendas/comandas")
+        }catch(error: any){
+            alert(error.message)
+        }
+    }
 
     useEffect(() => {
         if (comanda) {
@@ -55,7 +65,7 @@ export default function Screen(){
             </View>
             
             <View className="flex-1 items-center justify-center mt-4">
-                <Pressable className="bg-green-700 w-80 h-[50%] items-center justify-center">
+                <Pressable onPress={handleFecharComanda} className="bg-green-700 w-80 h-[50%] items-center justify-center">
                     <Text className="text-white font-bold text-4xl">Fechar</Text>
                 </Pressable>
             </View>

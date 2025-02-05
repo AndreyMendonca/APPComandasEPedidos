@@ -36,9 +36,12 @@ export const CategoriaService = {
             }else{
                 console.log("Erro da api: " + response.status);
             }
-        }catch(erro){
-            console.error("Erro na API ao deletar categoria:", erro);
-            throw new Error("Erro ao deletar categoria. Tente novamente mais tarde.");
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido ao fechar comanda.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
         }
     }
 }

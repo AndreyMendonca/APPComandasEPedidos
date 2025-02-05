@@ -1,6 +1,8 @@
 import { Pressable, Text, View } from "react-native"
 import Icon from '@expo/vector-icons/FontAwesome6';
 import { Produto } from "../types/produtos";
+import { ProdutoService } from "../services/produtoService";
+import { router } from "expo-router";
 
 
 type Props = {
@@ -9,8 +11,14 @@ type Props = {
 
 export const OpcaoProduto = ( {data}: Props) => {
 
-    const handleExcluir = () =>{
-
+    const handleExcluir = async () => {
+        try{
+            await ProdutoService.delete(data.id); 
+            alert("Deletado com sucesso")
+            router.replace("/cadastros/produtos");
+        }catch(error: any){
+            alert(error.message)
+        }
     }
 
     return (

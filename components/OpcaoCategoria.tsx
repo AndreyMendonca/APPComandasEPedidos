@@ -14,8 +14,8 @@ export const OpcaoCategoria = ({data} : Props) =>{
         try{
             await CategoriaService.delete(data.id); 
             router.replace("/cadastros/categorias");
-        }catch(error){
-            return 0;
+        }catch(error: any){
+            alert(error.message)
         }
     }
 
