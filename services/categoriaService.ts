@@ -23,9 +23,12 @@ export const CategoriaService = {
                 return response.data;
             }
             return null
-        }catch(erro){
-            console.error("Erro na API ao salvar categoria:", erro);
-            throw new Error("Erro ao salvar categoria. Tente novamente mais tarde.");
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido ao fechar comanda.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
         }
     },
     delete : async (id?: number): Promise<void> => {

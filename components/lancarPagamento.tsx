@@ -7,14 +7,17 @@ import { pagamentoDTO } from "../types/comanda";
 
 export const LancarPagamento = () =>{
     const {id} = useLocalSearchParams();
+    const [botao, setBotao] = useState(true)
     const [form, setForm] = useState(false)
     const [tipoPagamento, setTipoPagamento] = useState(1);
     const [pagamento, setPagamento] = useState<pagamentoDTO>({formaDePagamento: 1, valorPago: 0});
 
     const handleVisible = () =>{
+        setBotao(false)
         setForm(true)
     }
     const handleInvisible = () =>{
+        setBotao(true)
         setForm(false)
     }
 
@@ -30,12 +33,13 @@ export const LancarPagamento = () =>{
 
     return(
         <View className="bg-gray-200 rounded-3xl m-2 p-2">
-            <View className="items-center justify-center m-2">
-                <Pressable onPress={handleVisible} className="bg-yellow-400 rounded-lg w-64 items-center justify-center">
-                    <Text className="font-semibold text-xl">Adicionar Pagamento</Text>
-                </Pressable>
-            </View>
-
+            {   botao &&
+                <View className="items-center justify-center m-2">
+                    <Pressable onPress={handleVisible} className="bg-yellow-400 rounded-lg w-64 items-center justify-center">
+                        <Text className="font-semibold text-xl">Adicionar Pagamento</Text>
+                    </Pressable>
+                </View>
+            }
             {
                 form &&
                 <View className="border-2 rounded-xl"> 

@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { Header } from "../../../components/Header";
 import { OpcaoProduto } from "../../../components/OpcaoProduto";
 import { BuscaECadastro } from "../../../components/BuscaECadastro";
@@ -25,7 +25,7 @@ export default function Screen(){
 
     return (
         <View className="flex-1">
-            <Header nome="Produtos" voltar={true} />
+            <Header nome="Produtos" voltar={true} rota="/cadastros/listaDeCadastros"/>
             <BuscaECadastro rota="/cadastros/produtosCadastros"/>
 
             <FlatList

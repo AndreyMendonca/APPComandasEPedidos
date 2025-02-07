@@ -64,7 +64,6 @@ export const ComandaService = {
         try{
             const response = await req.put(`/comandas/${id}/fecharComanda`)
             if(response.status === 200){
-                console.log(response.data);
                 return response.data;
             }else{
                 console.log("Erro com o seguinte status " + response.status );

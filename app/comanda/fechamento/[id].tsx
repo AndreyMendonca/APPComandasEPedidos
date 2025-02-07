@@ -25,7 +25,7 @@ export default function Screen(){
 
     const handleFecharComanda = async () =>{
         try{
-            const response = ComandaService.fecharComanda(id.toString());
+            const response = await ComandaService.fecharComanda(id.toString());
             alert("Comanda fechada com sucesso");
             router.replace("/vendas/comandas")
         }catch(error: any){

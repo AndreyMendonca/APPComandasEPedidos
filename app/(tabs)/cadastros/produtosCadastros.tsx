@@ -1,4 +1,4 @@
-import { Button, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
+import { Alert, Button, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
 import { Header } from "../../../components/Header";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -11,9 +11,16 @@ import { Produto } from "../../../types/produtos";
 
 export default function Screen(){
 
-    const [produto, setProduto] = useState<Produto>({nome:'', precoVenda:0, categoria: {nome:null}});
+    const [produto, setProduto] = useState<Produto>({nome:'', precoVenda:0, categoria: {nome:null, id: null}});
 
     const handleSalvar = async () =>{
+        if (produto.nome.length === 0 || produto.categoria.id === null){
+            Alert.alert(
+                "Erro ao salvar",
+                "Nome e categoria são obrigatorios"
+            )
+            return
+        }
         try{
             const resposta = await ProdutoService.save(produto);
             if(resposta){
@@ -60,8 +67,13 @@ export default function Screen(){
                     <Text className="font-semibold text-xl m-5">Preço:</Text>
                     <TextInput 
                         keyboardType="numeric"
-                        value={produto.precoVenda ? produto.precoVenda.toString() : ''} 
-                        onChangeText = { texto => setProduto({...produto, precoVenda: parseFloat(texto.replace(",","."))})}
+                        value={produto?.precoVenda ? produto.precoVenda.toString() : ""}
+                        onChangeText = { texto => {
+                                const valorFiltrado = texto.replace(/[^0-9.,]/g, "")
+                                const novoValor = valorFiltrado.replace(",", ".");
+                                setProduto({...produto, precoVenda: parseFloat(novoValor)})
+                            } 
+                        }
                         placeholder="Digite o preco do produto"
                         className="text-xl" 
                     />

@@ -11,6 +11,10 @@ export default function Screen(){
     const [categoria, setCategoria] = useState<Categoria>({nome: ''});
 
     const handleSalvar = async () =>{
+        if(categoria.nome?.length === 0){
+            alert("Nome é obrigatorio");
+            return;
+        }
         try{
             const resposta =  await CategoriaService.save(categoria);
             if(resposta){
@@ -19,8 +23,8 @@ export default function Screen(){
                 alert("Erro")
             }
             router.replace('/cadastros/categorias');            
-        }catch(erro){
-            console.log("Erro ao cadastrar: " + erro)
+        }catch(error: any){
+            alert(error.message)
         }
     }
 

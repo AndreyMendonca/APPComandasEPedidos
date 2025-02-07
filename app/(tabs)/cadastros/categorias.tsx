@@ -1,4 +1,4 @@
-import { FlatList , SafeAreaView} from "react-native";
+import { Alert, Button, FlatList , SafeAreaView} from "react-native";
 import { Header } from "../../../components/Header";
 import { OpcaoCategoria } from "../../../components/OpcaoCategoria";
 import { BuscaECadastro } from "../../../components/BuscaECadastro";
@@ -22,7 +22,6 @@ export default function Screen(){
     useEffect( () =>{
         listaCategorias();
     }, []);
-
 
     return (
         <SafeAreaView className="flex-1 bg-white">
