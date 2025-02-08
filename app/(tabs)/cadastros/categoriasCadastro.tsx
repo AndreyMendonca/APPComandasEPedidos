@@ -1,14 +1,22 @@
 import { Button, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
 import { Header } from "../../../components/Header";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { Categoria } from "../../../types/categoria";
 import { CategoriaService } from "../../../services/categoriaService";
 
 
 export default function Screen(){
-
+    const params  = useLocalSearchParams();
     const [categoria, setCategoria] = useState<Categoria>({nome: ''});
+
+    useEffect(()=>{
+        if(params.categoriaPassada){
+            setCategoria(JSON.parse(params.categoriaPassada as string))
+            
+        }
+    },[]);
+
 
     const handleSalvar = async () =>{
         if(categoria.nome?.length === 0){
@@ -18,7 +26,7 @@ export default function Screen(){
         try{
             const resposta =  await CategoriaService.save(categoria);
             if(resposta){
-                alert("Cadastro realizado ")
+                alert("Sucesso!")
             }else{
                 alert("Erro")
             }
@@ -30,7 +38,7 @@ export default function Screen(){
 
     return (
         <SafeAreaView className="h-full bg-white">
-            <Header nome="Cadastrar Categoria" voltar={true} />
+            <Header nome= "Cadastrar/Editar Categoria" voltar={true} />
             <View className="m-6">
                 <View className="flex-row items-center bg-gray-200 rounded-3xl"> 
                     <Text className="font-semibold text-xl m-5">Nome:</Text>

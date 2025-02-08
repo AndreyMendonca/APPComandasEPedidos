@@ -1,6 +1,6 @@
-import { Alert, Button, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
 import { Header } from "../../../components/Header";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Categoria } from "../../../types/categoria";
 import { CategoriaService } from "../../../services/categoriaService";
@@ -10,8 +10,15 @@ import { Produto } from "../../../types/produtos";
 
 
 export default function Screen(){
-
+    const params = useLocalSearchParams();
     const [produto, setProduto] = useState<Produto>({nome:'', precoVenda:0, categoria: {nome:null, id: null}});
+
+    useEffect(()=>{
+        if(params.produtoPassado){
+            setProduto(JSON.parse(params.produtoPassado as string))
+            
+        }
+    },[]);
 
     const handleSalvar = async () =>{
         if (produto.nome.length === 0 || produto.categoria.id === null){
@@ -24,7 +31,10 @@ export default function Screen(){
         try{
             const resposta = await ProdutoService.save(produto);
             if(resposta){
-                alert("Cadastro realizado ")
+                Alert.alert(
+                    "Sucesso",
+                    "Ação concluida"
+                )
             }else{
                 alert("Erro")
             }
@@ -52,7 +62,7 @@ export default function Screen(){
 
     return (
         <SafeAreaView className="h-full bg-white">
-            <Header nome="Cadastrar Produtos" voltar={true} />
+            <Header nome="Cadastrar/Editar Produtos" voltar={true} />
             <View className="m-6">
                 <View className="flex-row items-center bg-gray-200 rounded-3xl mb-4"> 
                     <Text className="font-semibold text-xl m-5">Nome:</Text>

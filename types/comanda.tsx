@@ -5,6 +5,7 @@ export type Pedido = {
     itens: ItemPedido[]; 
     valorTotalFinal: number;
     pagamentoTotal: number;
+    pagamento: Pagamento[];
 }
 
 export type ItemPedido = {
@@ -20,6 +21,17 @@ export type Comanda= {
     abertura?: string;
     fechamento?: String | null;
     pedido: Pedido;
+}
+
+export type Pagamento = {
+    id: number;
+    valorPago: number;
+    formaDePagamento: FormaDePagamento;
+}
+
+export type FormaDePagamento = {
+    id: number;
+    identificacao: string;
 }
 
 

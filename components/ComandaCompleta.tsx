@@ -1,6 +1,7 @@
 import { FlatList, Text, View } from "react-native";
-import { Comanda, ItemPedido } from "../types/comanda"
+import { Comanda, ItemPedido, Pagamento } from "../types/comanda"
 import { ItensPedidoComanda } from "./ItensPedidoComanda";
+import { PagamentoComanda } from "./PagamentoComanda";
 
 type Props = {
     data: Comanda;
@@ -27,6 +28,19 @@ export const ComandaCompleta = ({data} : Props) => {
             </View>
             <View className="h-1 bg-white my-3"></View>
             <View className="h-96">
+                <Text>Pagamentos: </Text>
+                {
+                    data?.pedido.pagamento?.length > 0 &&
+                        <FlatList 
+                            data={data.pedido?.pagamento}
+                            renderItem={ ( {item} : {item:Pagamento} ) =>
+                            (<PagamentoComanda data={item}/>)
+                            }
+                            keyExtractor={item => item?.id.toString()}
+                            className="h-32"
+                        />
+                }
+                
                 <Text>Pedidos:</Text>
                 <FlatList
                     data={data.pedido?.itens}

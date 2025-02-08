@@ -42,13 +42,20 @@ export const OpcaoCategoria = ({data} : Props) =>{
         );
     };
 
+    const handleEditar = () => {
+        router.push({
+            pathname: "/cadastros/categoriasCadastro",
+            params: {categoriaPassada: JSON.stringify(data)}
+        });
+    }
+
     return (
         <View className="bg-gray-200 m-3 p-4 rounded-xl flex-row justify-between items-center">
             <View>
                 <Text className="font-semibold text-xl">{data.nome}</Text>
             </View>
             <View className="flex-row">
-                <Pressable className="items-center mr-4">
+                <Pressable onPress={handleEditar} className="items-center mr-4">
                     <Icon name="pen-to-square"  size={20} color="black"  />
                     <Text> Editar </Text>
                 </Pressable>

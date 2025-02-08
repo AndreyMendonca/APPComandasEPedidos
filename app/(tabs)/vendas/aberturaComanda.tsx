@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, Text, TextInput, View } from "react-native"
+import { Alert, Pressable, SafeAreaView, Text, TextInput, View } from "react-native"
 import { Header } from "../../../components/Header"
 import { router } from "expo-router"
 import { ComandaService } from "../../../services/comandaService"
@@ -10,6 +10,12 @@ export default function Screen(){
     const [abrirComanda, setAbrirComanda] = useState<AbrirComanda>({identificacao : ""});
 
     const handleCriar = async () =>{
+        if(abrirComanda.identificacao === ''){
+            Alert.alert("Erro",
+                "Identificacao é obrigatorio"
+            )
+            return
+        }
         try{
             const resposta = await ComandaService.abrirComanda(abrirComanda);
             if(resposta){

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Text, View, ScrollView, Pressable, SafeAreaView, FlatList, Button } from "react-native";
+import { Text, View, ScrollView, Pressable, SafeAreaView, FlatList, Button, Alert } from "react-native";
 import { Header } from "../../components/Header";
 import { OpcaoCategoriaVenda } from "../../components/OpcaoCategoriaVenda";
 import Icon from '@expo/vector-icons/FontAwesome6';
@@ -14,16 +14,21 @@ import { ComandaService } from "../../services/comandaService";
 export default function Screen(){
     const {id} = useLocalSearchParams();
 
+    const [revisarPedido, setRevisarPedido] = useState<Validar[]>([]);
+
     const [produto, setProdutos] = useState<Produto[]>([]);
 
     const [pedido, setPedido] = useState<PedidoDTO>({itens: []});
 
     const [comanda, setComanda] = useState<Comanda>();
 
+    type Validar = {
+        nome: string | null;
+        quantidade: number| null;
+    }
+
     const getById = async () =>{
         try{
-            console.log('cheguei aqui')
-            console.log({id})
             const response = await ComandaService.getById(id.toString())
             setComanda(response)
         }catch(error){
@@ -54,7 +59,6 @@ export default function Screen(){
 
     const adicionarItemAoPedido= (item: ItensPedidoDTO, soma:boolean) =>{
         if (!pedido) return console.log("não funcionou");
-
         setPedido((prevPedido) => {
             if (!prevPedido) return { itens: [item] }; // Garante que o estado não fique undefined
     
@@ -72,6 +76,23 @@ export default function Screen(){
         });
     }
 
+    const handleRevisarPedido = () =>{
+
+        var texto = "Item - Quantidade\n"
+
+        pedido.itens.forEach(itemPedido => {
+            const produtoEncontrado = produto.find(produto => produto.id === itemPedido.idProduto);
+    
+
+
+            if (produtoEncontrado) {
+                texto += `${produtoEncontrado.nome} - ${itemPedido.quantidade === 0 ? 1 :itemPedido.quantidade }\n`;
+            }
+            
+        });
+        Alert.alert("Pedido", texto);
+    }
+
     const handleLancarPedido = async () =>{
         try{
             const responta = await ComandaService.lancarItensAComanda(id.toString(), pedido);
@@ -84,11 +105,11 @@ export default function Screen(){
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <Header nome="Lançamento Item" voltar={true}></Header>
+            <Header nome="Lançamento Item" voltar={true} rota="/vendas/comandas"></Header>
             <View className="m-2 flex-row h-24 items-center justify-between">
                 <View>
                     <Text className="text-xl">Identificação: {comanda?.identificacao}</Text>
-                    <Text>Valor total: R$ 2.00</Text>
+                    <Text>Valor total: R$ {comanda?.pedido.valorTotalFinal.toFixed(2)}</Text>
                 </View>
                 <Pressable onPress={() => router.push(`comanda/fechamento/${id}`)} className="flex-row items-center w-36 h-20 justify-center bg-green-700 rounded-lg">
                     <Icon name="hand-holding-dollar" size={20} color="white"/>
@@ -101,15 +122,7 @@ export default function Screen(){
             
             <View className="h-1 bg-gray-200 mb-2"></View>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mx-2 h-12">
-                <OpcaoCategoriaVenda />
-                <OpcaoCategoriaVenda />
-                <OpcaoCategoriaVenda />
-                <OpcaoCategoriaVenda />
-            </ScrollView>
-
-            <View className="h-1 bg-gray-200 mt-2 mb-2"></View>
-            <View className="h-[60%] p-1">
+            <View className="h-[70%] p-1">
                 <FlatList 
                     data={produto}
                     renderItem={ ( {item} : {item:Produto} ) => 
@@ -128,7 +141,7 @@ export default function Screen(){
                         <Text className="color-white ml-8">Pedido</Text>
                     </View>
                 </Pressable>
-                <Pressable className="flex-row items-center   justify-center m-2 bg-yellow-300 p-2 rounded-lg">
+                <Pressable onPress={handleRevisarPedido} className="flex-row items-center   justify-center m-2 bg-yellow-300 p-2 rounded-lg">
                     <Icon name="calendar-days" size={20} color="white"/>
                     <View className="items-center">
                         <Text className="color-white ml-8">Revisar</Text>
