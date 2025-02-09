@@ -10,6 +10,15 @@ export default function Screen(){
 
     const [produto, setProdutos] = useState<Produto[]>([]);
 
+    const findByNome = async (nome: string) =>{
+        try{
+            const list = await ProdutoService.getByNome(nome);
+            setProdutos(list);
+        }catch(error){
+            return 0;
+        }
+    }
+
     const listaProdutos = async () => {
         try{
             const lista = await ProdutoService.getAll();  
@@ -26,7 +35,7 @@ export default function Screen(){
     return (
         <View className="flex-1">
             <Header nome="Produtos" voltar={true} rota="/cadastros/listaDeCadastros"/>
-            <BuscaECadastro rota="/cadastros/produtosCadastros"/>
+            <BuscaECadastro rota="/cadastros/produtosCadastros" busca={findByNome} todos={listaProdutos}/>
 
             <FlatList
                 data={produto}

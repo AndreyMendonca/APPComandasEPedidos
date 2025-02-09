@@ -9,6 +9,9 @@ export default function VendasLayout(){
             <Stack.Screen name="aberturaComanda" 
                 options={{headerShown: false}}
             />
+            <Stack.Screen name="todasComandas" 
+                options={{headerShown: false}}
+            />
         </Stack>
     )
 }

@@ -1,5 +1,5 @@
 import { req } from "../lib/axios"
-import { AbrirComanda, Comanda, pagamentoDTO, PedidoDTO } from "../types/comanda";
+import { AbrirComanda, Comanda, pagamentoDTO, PedidoDTO, RelatorioVenda } from "../types/comanda";
 
 export const ComandaService = {
     getAbertas : async (): Promise<Comanda[]> =>{
@@ -13,7 +13,19 @@ export const ComandaService = {
             }
         } catch (error) {
             console.error("Erro na API ao salvar categoria:", error);
-            throw new Error("Erro ao salvar categoria. Tente novamente mais tarde.");
+            throw new Error("Erro. Tente novamente mais tarde.");
+        }
+    },
+    getAll :  async (): Promise<Comanda[]> =>{
+        try{
+            const response = await req.get('/comandas/todas');
+            if(response.status === 200){
+                return response.data;
+            }
+            return [];
+        }catch(error: any){
+            console.log(error);
+            throw new Error("Erro. Tente novamente mais tarde.");
         }
     },
     abrirComanda : async (comanda: AbrirComanda): Promise<Comanda> =>{
@@ -91,6 +103,29 @@ export const ComandaService = {
         }catch(error){
             console.log(`/comanda/${id}/adicionar`)
             throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.")
+        }
+    },
+    getByIdentificacao: async (identificacao: string) : Promise<Comanda[]> =>{
+        try{
+            const response = await req.get(`/comandas/nome/${identificacao}`)
+            if(response.status === 200){
+                return response.data
+            }
+            return [];
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido buscas comanda.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
+        }
+    },
+    relatorio : async () : Promise<RelatorioVenda> =>{
+        try{
+            const response = await req.get('comandas/relatorio')
+            return response.data;
+        }catch(error){
+            throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
         }
     }
 }

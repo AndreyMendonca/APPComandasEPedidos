@@ -19,6 +19,15 @@ export default function Screen(){
         }
     }
 
+    const findByNome = async (nome: string) =>{
+        try {
+            const lista = await CategoriaService.findByNome(nome);
+            setCategorias(lista)
+        }catch(error){
+            return 0;
+        }
+    }
+
     useEffect( () =>{
         listaCategorias();
     }, []);
@@ -26,7 +35,7 @@ export default function Screen(){
     return (
         <SafeAreaView className="flex-1 bg-white">
             <Header nome="Categorias" voltar={true} rota="/cadastros/listaDeCadastros"/>
-            <BuscaECadastro rota="/cadastros/categoriasCadastro"/>
+            <BuscaECadastro rota="/cadastros/categoriasCadastro" busca={findByNome} todos={listaCategorias}/>
 
             <FlatList
                 data={categorias}

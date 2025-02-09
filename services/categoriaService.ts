@@ -46,5 +46,21 @@ export const CategoriaService = {
                 throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
             }
         }
+    },
+    findByNome : async(nome?: string) : Promise<Categoria[]> =>{
+        try{
+            const response = await req.get(`categorias/nome/${nome}`);
+            if(response.status === 200){
+                return response.data;
+            }
+
+            return [];
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido ao fechar comanda.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
+        }
     }
-}
+ }

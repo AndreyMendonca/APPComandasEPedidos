@@ -11,6 +11,15 @@ export default function Screen(){
 
     const [comandas, setComandas] = useState<Comanda[]>([]) 
 
+    const findByIdentificacao = async (identificacao: string) =>{
+        try{
+            const lista = await ComandaService.getByIdentificacao(identificacao);
+            setComandas(lista);
+        }catch(erro){
+            return 0;
+        }
+    }
+
     const listaComandasAtivas = async () =>{
         try {
             const lista =  await ComandaService.getAbertas();
@@ -28,7 +37,7 @@ export default function Screen(){
     return(
         <SafeAreaView className="flex-1">
             <Header nome="Comandas"/>
-            <BuscaECadastro rota="/vendas/aberturaComanda"/>
+            <BuscaECadastro rota="/vendas/aberturaComanda" busca={findByIdentificacao} todos={listaComandasAtivas}/>
             <FlatList 
                 data={comandas}
                 renderItem={ ( {item} : {item:Comanda}) =>

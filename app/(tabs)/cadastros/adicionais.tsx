@@ -1,11 +1,16 @@
 import { Text, View } from "react-native";
 import { Header } from "../../../components/Header";
+import Icon from '@expo/vector-icons/FontAwesome6';
 
 export default function Screen(){
     return (
-        <View>
+        <View className="flex-1">
             <Header nome="Adicionais" voltar={true} rota="/cadastros/listaDeCadastros" />
-            <Text>Adicionais</Text>
+            <View className="flex-1 items-center justify-center">
+                <Icon name="gears" size={100} color="black" />
+                <Text className="font-semibold text-3xl">Em Breve.... </Text>
+                <Text className="font-normal text-xl">Cadastros de adicionais aos produtos.... </Text>
+            </View>
         </View>
     )
 }

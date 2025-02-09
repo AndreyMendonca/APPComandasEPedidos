@@ -53,3 +53,10 @@ export type pagamentoDTO = {
     formaDePagamento: number;
     valorPago : number;
 }
+
+//Relatorio
+export type RelatorioVenda = {
+    vendasDia: number;
+    totalReaisDia: number;
+    totalReaisMes: number;
+}

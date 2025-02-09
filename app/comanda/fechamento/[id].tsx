@@ -61,7 +61,7 @@ export default function Screen(){
             <Header nome="Fechar comanda" voltar={true}/>
             <ComandaCompleta data={comanda}/>
             <View className="h-36">
-                <LancarPagamento />
+                <LancarPagamento valor={comanda.pedido.valorTotalFinal - comanda.pedido.pagamentoTotal} />
             </View>
             
             <View className="flex-1 items-center justify-center mt-4">

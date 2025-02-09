@@ -45,5 +45,20 @@ export const ProdutoService = {
                 throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
             }
         }
+    },
+    getByNome: async (nome: string): Promise<Produto[]> =>{
+        try{
+            const response = await req.get(`produtos/nome/${nome}`);
+            if(response.status === 200){
+                return response.data;
+            }
+            return [];
+        }catch(error: any){
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || "Erro desconhecido ao buscar.");
+            } else {
+                throw new Error("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
+        }
     }
 }

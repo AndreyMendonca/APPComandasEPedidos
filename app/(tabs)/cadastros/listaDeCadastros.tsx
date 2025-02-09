@@ -21,7 +21,7 @@ export default function Screen(){
                 </View> 
                 <View className="flex-row justify-between px-4 mt-4">
                     <OpcaoDeCadastro 
-                        identificacao="Adicionais" 
+                        identificacao="Adicionais"  
                         icone="square-plus"
                         rota="/cadastros/adicionais"
                     />

@@ -5,7 +5,11 @@ import { ComandaService } from "../services/comandaService";
 import { router, useLocalSearchParams } from "expo-router";
 import { pagamentoDTO } from "../types/comanda";
 
-export const LancarPagamento = () =>{
+type Props = {
+    valor: number;
+}
+
+export const LancarPagamento = ({valor}: Props) =>{
     const {id} = useLocalSearchParams();
     const [botao, setBotao] = useState(true)
     const [form, setForm] = useState(false)
@@ -13,6 +17,7 @@ export const LancarPagamento = () =>{
     const [pagamento, setPagamento] = useState<pagamentoDTO>({formaDePagamento: 1, valorPago: 0});
 
     const handleVisible = () =>{
+        setPagamento({...pagamento, valorPago: valor})
         setBotao(false)
         setForm(true)
     }
